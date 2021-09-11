@@ -6,8 +6,8 @@ import {
   Param,
   Post,
   Put,
-  Query,
 } from '@nestjs/common';
+import { ValidationProductPipe } from 'src/common/pipes/validation.pipe';
 import { CreateProductBodyDto } from './dto/create-product-body.dto';
 import { UpdateProductBodyDto } from './dto/update-product-body.dto';
 import { Product } from './entity/product.entity';
@@ -29,24 +29,26 @@ export class ProductController {
     return this.productService.getProducts();
   }
 
-  @Get(':offerId')
-  async getProduct(@Param('offerId') offerId: string): Promise<Product> {
-    return await this.productService.getProduct(offerId);
+  @Get(':productId')
+  async getProduct(
+    @Param('productId', ValidationProductPipe) productId: string,
+  ): Promise<Product> {
+    return await this.productService.getProduct(productId);
   }
 
-  @Put(':offerId')
+  @Put(':productId')
   async updateProduct(
-    @Param('offerId') offerId: string,
+    @Param('productId', ValidationProductPipe) productId: string,
     @Body() updateProductBodyDto: UpdateProductBodyDto,
   ): Promise<Product> {
     return await this.productService.updateProduct(
-      offerId,
+      productId,
       updateProductBodyDto,
     );
   }
 
-  @Delete(':offerId')
-  async deleteProduct(@Param('offerId') offerId: string): Promise<Product> {
-    return await this.productService.deleteProduct(offerId);
+  @Delete(':productId')
+  async deleteProduct(@Param('productId') productId: string): Promise<Product> {
+    return await this.productService.deleteProduct(productId);
   }
 }

@@ -26,29 +26,30 @@ export class ProductService {
     return await this.productRepository.find();
   }
 
-  async getProduct(offerId: string): Promise<Product> {
-    return await this.productRepository.findOne({ where: { id: offerId } });
+  async getProduct(productId: string): Promise<Product> {
+    return await this.productRepository.findOne({ where: { id: productId } });
   }
 
   async updateProduct(
-    offerId: string,
+    productId: string,
     updateProductBodyDto: UpdateProductBodyDto,
   ): Promise<Product> {
-    const { name, description, price } = updateProductBodyDto;
+    const { name, description, price, quantity } = updateProductBodyDto;
     const updatedProduct = this.productRepository.create({
-      id: offerId,
+      id: productId,
       name,
       description,
       price,
+      quantity,
     });
     return await this.productRepository.save(updatedProduct);
   }
 
-  async deleteProduct(offerId: string): Promise<Product> {
+  async deleteProduct(productId: string): Promise<Product> {
     const product = await this.productRepository.findOne({
-      where: { id: offerId },
+      where: { id: productId },
     });
-    const deleteResult = await this.productRepository.delete({ id: offerId });
+    const deleteResult = await this.productRepository.delete({ id: productId });
     console.log(JSON.stringify(deleteResult));
     return product;
   }

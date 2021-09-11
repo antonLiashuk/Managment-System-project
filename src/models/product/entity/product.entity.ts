@@ -21,6 +21,9 @@ export class Product {
   @Column()
   price: number;
 
+  @Column({ default: 0 })
+  quantity: number;
+
   @CreateDateColumn()
   createdAt: Date;
 

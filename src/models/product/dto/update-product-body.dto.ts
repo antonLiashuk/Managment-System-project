@@ -22,4 +22,11 @@ export class UpdateProductBodyDto {
     description: `Enter the product's price`,
   })
   price: number;
+
+  @IsNumber()
+  @IsOptional()
+  @ApiProperty({
+    description: `Enter the product's price`,
+  })
+  quantity: number;
 }
